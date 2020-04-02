@@ -10,6 +10,7 @@ import utility.observer.subject.PropertyChangeProxy;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 public class ModelManager implements Model, LocalListener<String,String>
 {
@@ -45,6 +46,11 @@ public class ModelManager implements Model, LocalListener<String,String>
 return client.verifyPass(password,name);
   }
 
+  @Override public String getUsers() throws RemoteException
+  {
+    System.out.println("CHATTERS Model");
+    return client.getUsers();
+  }
 
   @Override public boolean addListener(GeneralListener<String, String> listener,
       String... propertyNames)

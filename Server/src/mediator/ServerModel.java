@@ -18,6 +18,7 @@ public class ServerModel implements RemoteModel, LocalListener<String,String>
 {
   private Model model;
   private PropertyChangeProxy<String,String> property;
+  private String user;
   public ServerModel(Model model) throws MalformedURLException, RemoteException
   {
     this.property = new PropertyChangeProxy<>(this, true);
@@ -31,17 +32,20 @@ public class ServerModel implements RemoteModel, LocalListener<String,String>
     try
     {
       Registry reg = LocateRegistry.createRegistry(1099);
+      model.addLog("Registry started... ");
       System.out.println("Registry started...");
     }
     catch (java.rmi.server.ExportException e)
     {
       System.out.println("Registry already started?" + " " + e.getMessage());
+      model.addLog("Registry already started?" + " " + e.getMessage());
     }
   }
   private void startServer() throws RemoteException, MalformedURLException
   {
     UnicastRemoteObject.exportObject(this, 0);
     Naming.rebind("Chat", this);
+    model.addLog("Server started");
     System.out.println("Server started...");
   }
 
@@ -53,16 +57,30 @@ public class ServerModel implements RemoteModel, LocalListener<String,String>
   }
   @Override public boolean verifyPass(String password, String username)
   {
+    this.user = username;
+    if(model.verifyLog(password))
+    {
+      model.addLog("User " + username + " is Connected");
+    }
+    else{
+      model.addLog("User " + username + " is not Connected");
+    }
+    model.addUser(username);
     return model.verifyLog(password);
   }
 
   @Override public void addMessage(String message)
   {
-    model.addLog(message);
+    model.addLog("User : " + user  + "  | Message : " + message);
     System.out.println("Message : " + message);
-    model.addMessage(message,"user");
+    model.addMessage(message,user);
   }
 
+  @Override public String getUsers() throws RemoteException
+  {
+    System.out.println(model.getList());
+    return model.getList();
+  }
 
   @Override public boolean addListener(GeneralListener<String, String> listener,
       String... propertyNames) throws RemoteException

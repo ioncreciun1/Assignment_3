@@ -42,6 +42,12 @@ public class Client implements ClientModel, RemoteListener<String,String>
 remoteModel.addMessage(message);
   }
 
+  @Override public String getUsers() throws RemoteException
+  {
+    System.out.println("CHATTERS Client");
+    return remoteModel.getUsers();
+  }
+
   @Override public boolean addListener(GeneralListener<String, String> listener,
       String... propertyNames)
   {
