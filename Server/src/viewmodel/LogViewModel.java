@@ -4,11 +4,13 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Model;
+import utility.observer.event.ObserverEvent;
+import utility.observer.listener.LocalListener;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class LogViewModel implements PropertyChangeListener
+public class LogViewModel implements LocalListener<String,String>
 {
   private Model model;
   private ObservableList<String> logs;
@@ -16,7 +18,7 @@ public class LogViewModel implements PropertyChangeListener
   public LogViewModel(Model model)
   {
     this.model = model;
-    this.model.addListener("add",this);
+    this.model.addListener(this,"add");
     logs = FXCollections.observableArrayList();
   }
 
@@ -26,11 +28,11 @@ public class LogViewModel implements PropertyChangeListener
   }
 
 
-  @Override
-  public void propertyChange(PropertyChangeEvent evt)
+
+  @Override public void propertyChange(ObserverEvent<String, String> event)
   {
     Platform.runLater(() -> {
-      logs.add(0, evt.getNewValue() + "");
+      logs.add(0, event.getValue2() + "");
     });
   }
 }

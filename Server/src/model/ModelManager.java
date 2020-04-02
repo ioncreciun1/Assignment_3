@@ -1,5 +1,8 @@
 package model;
 
+import utility.observer.listener.GeneralListener;
+import utility.observer.subject.PropertyChangeProxy;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -7,13 +10,13 @@ import java.util.ArrayList;
 public class ModelManager implements Model
 {
   private Converter converter;
-  private PropertyChangeSupport property;
+  private PropertyChangeProxy<String,String> property;
   private ArrayList<String> list = new ArrayList<>();
 
   public ModelManager()
   {
     this.converter = new Converter();
-    property = new PropertyChangeSupport(this);
+    property = new PropertyChangeProxy<>(this);
   }
   @Override
   public synchronized void addLog(String log)
@@ -49,22 +52,25 @@ public class ModelManager implements Model
 
   @Override public void addMessage(String message,String user)
   {
-    property.firePropertyChange("user", null, user);
-    property.firePropertyChange("message", null, message);
+    System.out.println("I am here");
+    System.out.println(message);
+  property.firePropertyChange("user", null, user);
+    property.firePropertyChange("message",null,message);
 
   }
 
 
-  @Override public void addListener(String propertyName,
-      PropertyChangeListener listener)
-  {
 
-    property.addPropertyChangeListener(propertyName,listener);
+
+  @Override public boolean addListener(GeneralListener<String, String> listener,
+      String... propertyNames)
+  {
+    return property.addListener(listener,propertyNames);
   }
 
-  @Override public void removeListener(String propertyName,
-      PropertyChangeListener listener)
+  @Override public boolean removeListener(
+      GeneralListener<String, String> listener, String... propertyNames)
   {
-    property.removePropertyChangeListener(propertyName,listener);
+    return property.removeListener(listener,propertyNames);
   }
 }

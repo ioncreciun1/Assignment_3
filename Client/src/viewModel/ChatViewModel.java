@@ -4,12 +4,15 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Model;
+import utility.observer.event.ObserverEvent;
+import utility.observer.listener.LocalListener;
+import utility.observer.subject.PropertyChangeProxy;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
-public class ChatViewModel implements PropertyChangeListener
+public class ChatViewModel implements LocalListener<String,String>
 {
   private Model model;
   private ObservableList<String> logs;
@@ -18,7 +21,7 @@ public class ChatViewModel implements PropertyChangeListener
     this.model = model;
     logs = FXCollections.observableArrayList();
     logs.add("NOW YOU CAN CHAT WITH OTHER");
-    model.addListener("message",this);
+    model.addListener(this,"message");
   }
   public ObservableList<String> getLogs()
   {
@@ -26,14 +29,14 @@ public class ChatViewModel implements PropertyChangeListener
   }
   public void setMessage(String inputField) throws IOException
   {
-
+    System.out.println("Message sent");
     model.sendMessage(inputField);
   }
-  public void propertyChange(PropertyChangeEvent evt)
+  @Override public void propertyChange(ObserverEvent<String, String> event)
   {
     Platform.runLater(() -> {
-      logs.add(1, evt.getNewValue() + "");
+      System.out.println("Now I receive IT");
+      logs.add(1, event.getValue2() + "");
     });
   }
-
 }
