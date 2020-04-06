@@ -57,10 +57,10 @@ public class ServerModel implements RemoteModel, LocalListener<String,String>
   }
   @Override public boolean verifyPass(String password, String username)
   {
-    this.user = username;
     if(model.verifyLog(password))
     {
       model.addLog("User " + username + " is Connected");
+     // this.user = username;
     }
     else{
       model.addLog("User " + username + " is not Connected");
@@ -69,9 +69,10 @@ public class ServerModel implements RemoteModel, LocalListener<String,String>
     return model.verifyLog(password);
   }
 
-  @Override public void addMessage(String message)
+  @Override public void addMessage(String message,String user)
   {
     model.addLog("User : " + user  + "  | Message : " + message);
+    System.out.println("USER : " + user);
     System.out.println("Message : " + message);
     model.addMessage(message,user);
   }

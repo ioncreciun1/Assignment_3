@@ -18,6 +18,7 @@ public class Client implements ClientModel, RemoteListener<String,String>
   private String host;
   private Model model;
   private RemoteModel remoteModel;
+  private String user = "";
   private PropertyChangeProxy<String,String> property;
   public Client(Model model,String host)
       throws RemoteException, NotBoundException, MalformedURLException
@@ -33,13 +34,14 @@ public class Client implements ClientModel, RemoteListener<String,String>
   @Override public boolean verifyPass(String password, String username)
       throws RemoteException
   {
+    this.user = username;
     return remoteModel.verifyPass(password,username);
   }
 
   @Override public void addMessage(String message) throws RemoteException
   {
     System.out.println("Message added");
-remoteModel.addMessage(message);
+remoteModel.addMessage(message,user);
   }
 
   @Override public String getUsers() throws RemoteException

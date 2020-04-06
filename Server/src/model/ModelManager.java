@@ -54,6 +54,7 @@ public class ModelManager implements Model
 
   @Override public void addMessage(String message,String user)
   {
+    System.out.println("USER : " + user);
     property.firePropertyChange("message",user,message);
 
   }
