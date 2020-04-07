@@ -7,8 +7,7 @@ import utility.observer.listener.GeneralListener;
 import utility.observer.listener.LocalListener;
 import utility.observer.subject.PropertyChangeProxy;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+
 import java.io.IOException;
 import java.rmi.RemoteException;
 
@@ -48,7 +47,6 @@ return client.verifyPass(password,name);
 
   @Override public String getUsers() throws RemoteException
   {
-    System.out.println("CHATTERS Model");
     return client.getUsers();
   }
 
@@ -66,7 +64,6 @@ return client.verifyPass(password,name);
 
   @Override public void propertyChange(ObserverEvent<String, String> event)
   {
-    System.out.println("Model");
   property.firePropertyChange(event);
   }
 }

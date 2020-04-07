@@ -41,13 +41,6 @@ public class ChatViewController
     if(!text.getText().equals(""))
     {
       viewModel.setMessage(text.getText());
-      if(text.getText().equalsIgnoreCase("close"))
-      {
-        Stage stage = (Stage)text.getScene().getWindow();
-        System.out.println(stage);
-        stage.close();
-
-      }
       text.setText("");
     }
   }

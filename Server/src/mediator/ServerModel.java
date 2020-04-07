@@ -33,11 +33,9 @@ public class ServerModel implements RemoteModel, LocalListener<String,String>
     {
       Registry reg = LocateRegistry.createRegistry(1099);
       model.addLog("Registry started... ");
-      System.out.println("Registry started...");
     }
     catch (java.rmi.server.ExportException e)
     {
-      System.out.println("Registry already started?" + " " + e.getMessage());
       model.addLog("Registry already started?" + " " + e.getMessage());
     }
   }
@@ -46,12 +44,10 @@ public class ServerModel implements RemoteModel, LocalListener<String,String>
     UnicastRemoteObject.exportObject(this, 0);
     Naming.rebind("Chat", this);
     model.addLog("Server started");
-    System.out.println("Server started...");
   }
 
   public void close()
   {
-    //property.close();
     try { UnicastRemoteObject.unexportObject(this, true); }
     catch (Exception e) {/*nothing*/ }
   }
@@ -60,26 +56,22 @@ public class ServerModel implements RemoteModel, LocalListener<String,String>
     if(model.verifyLog(password))
     {
       model.addLog("User " + username + " is Connected");
-     // this.user = username;
+      model.addUser(username);
     }
     else{
       model.addLog("User " + username + " is not Connected");
     }
-    model.addUser(username);
     return model.verifyLog(password);
   }
 
   @Override public void addMessage(String message,String user)
   {
     model.addLog("User : " + user  + "  | Message : " + message);
-    System.out.println("USER : " + user);
-    System.out.println("Message : " + message);
     model.addMessage(message,user);
   }
 
   @Override public String getUsers() throws RemoteException
   {
-    System.out.println(model.getList());
     return model.getList();
   }
 

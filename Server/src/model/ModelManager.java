@@ -27,9 +27,7 @@ public class ModelManager implements Model
   }
   public void addUser(String user)
   {
-    System.out.println("USER : " + user);
     list.add(user);
-    System.out.println("LIST : " + list);
   }
 
   @Override public void removeUser(String user)
@@ -54,7 +52,6 @@ public class ModelManager implements Model
 
   @Override public void addMessage(String message,String user)
   {
-    System.out.println("USER : " + user);
     property.firePropertyChange("message",user,message);
 
   }

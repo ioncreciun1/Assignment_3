@@ -1,6 +1,5 @@
 package mediator;
 
-import utility.observer.listener.LocalListener;
 import utility.observer.subject.LocalSubject;
 
 import java.rmi.RemoteException;

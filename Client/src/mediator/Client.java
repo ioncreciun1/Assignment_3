@@ -40,13 +40,12 @@ public class Client implements ClientModel, RemoteListener<String,String>
 
   @Override public void addMessage(String message) throws RemoteException
   {
-    System.out.println("Message added");
 remoteModel.addMessage(message,user);
   }
 
   @Override public String getUsers() throws RemoteException
   {
-    System.out.println("CHATTERS Client");
+
     return remoteModel.getUsers();
   }
 
@@ -65,8 +64,6 @@ remoteModel.addMessage(message,user);
   @Override public void propertyChange(ObserverEvent<String, String> event)
       throws RemoteException
   {
-    System.out.println("Client");
-    System.out.println(event.getValue2());
   property.firePropertyChange(event);
   }
 }
